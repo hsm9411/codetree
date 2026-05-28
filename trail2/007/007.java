@@ -7,6 +7,7 @@ public class Main {
         int time;
         
         sCode = sc.next();
+        // mPoint = sc.next().charAt(0); 이거 중요
         mPoint = sc.next().toCharArray()[0];
         time = sc.nextInt();
 
