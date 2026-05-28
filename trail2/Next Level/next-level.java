@@ -9,6 +9,9 @@ public class Main {
         Info info1 = new Info();
         Info info2 = new Info(str,num);
 
+        info1.str = new String("codetree");
+        info1.num = 10;
+
         System.out.println(info1);
         System.out.println(info2);
 
@@ -16,10 +19,13 @@ public class Main {
 }
 
 class Info{
-    String str = new String("codetree");
-    int num = 10;
+    String str;
+    int num;
 
-    public Info(){}
+    public Info(){
+        this.str = "";
+        this.num = 0;
+    }
 
     public Info(String str, int num){
         this.str = str;
@@ -27,7 +33,7 @@ class Info{
     }
 
     public String toString(){
-        return "user "+ str + " lv "+num;
+        return "user "+ this.str + " lv "+this.num;
     }
 
 }
