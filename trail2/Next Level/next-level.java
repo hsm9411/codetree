@@ -19,7 +19,7 @@ class Info{
     String str = new String("codetree");
     int num = 10;
 
-    public Info(){    }
+    public Info(){}
 
     public Info(String str, int num){
         this.str = str;
