@@ -1,69 +1,53 @@
 import java.util.Scanner;
 
 public class Main {
+    public static final int MAX_N = 100000;
+    
+    public static int n;
+    public static int[] arr = new int[MAX_N];
+    public static int[] mergedArr = new int[MAX_N];
+
+    public static void merge(int low, int mid, int high) {
+        int i = low, j = mid + 1;            // 각 리스트 내의 원소 위치를 잡습니다.
+
+        int k = low;                         // 병합 시 원소를 담을 위치를 유지합니다.
+        while(i <= mid && j <= high) {       // 두 리스트 내의 원소가 아직 남아있다면
+            if (arr[i] <= arr[j])            // 첫 번째 리스트 내의 원소가 더 작다면
+                mergedArr[k++] = arr[i++];   // 해당 원소를 옮겨줍니다. 
+            else
+                mergedArr[k++] = arr[j++];   // 그렇지 않다면 두 번째 리스트 내의 원소를 옮겨줍니다.
+        }
+
+        while(i <= mid)                      // 아직 첫 번째 리스트 내 원소가 남아있다면
+            mergedArr[k++] = arr[i++];       // 남은 원소들을 전부 옮겨줍니다.
+        
+        while(j <= high)                     // 아직 두 번째 리스트 내 원소가 남아있다면
+            mergedArr[k++] = arr[j++];       // 남은 원소들을 전부 옮겨줍니다.
+        
+        for(int l = low; l <= high; l++)     // 병합된 리스트를 다시
+            arr[l] = mergedArr[l];           // 원본 리스트에 옮겨줍니다.
+    }
+
+    public static void mergeSort(int low, int high) {
+        if(low < high) {                   // 원소의 개수가 2개 이상인 경우에만 진행
+            int mid = (low + high) / 2;    // 가운데 원소의 위치
+            mergeSort(low, mid);           // 왼쪽 부분에 대해 병합정렬 진행
+            mergeSort(mid + 1, high);      // 우측 부분에 대해 병합정렬 진행
+            merge(low, mid, high);         // 정렬된 두 리스트를 하나로 병합
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
+        
+        // 입력
+        n = sc.nextInt();
+        for(int i = 0; i < n; i++)
             arr[i] = sc.nextInt();
-        }
         
-        // 메모리 절약을 위해 임시 배열을 한 번만 생성해서 넘겨줍니다.
-        int[] marr = new int[n]; 
-        
-        // 에러 수정: n 대신 n - 1을 전달합니다.
-        ms(arr, marr, 0, n - 1);
-        
-        for(int i = 0; i < n; i++){
+        mergeSort(0, n - 1);
+
+        for(int i = 0; i < n; i++)
             System.out.print(arr[i] + " ");
-        }
-    }
-
-    public static void ms(int[] arr, int[] marr, int low, int high){
-        if(low < high){
-            int mid = (low + high) / 2;
-            ms(arr, marr, low, mid);
-            ms(arr, marr, mid + 1, high);
-            merge(arr, marr, low, mid, high);
-        }
-    }
-
-    public static void merge(int[] arr, int[] marr, int low, int mid, int high){
-        int i = low;
-        int j = mid + 1;
-        int k = low;
-        
-        // 정렬하며 임시 배열(marr)에 저장
-        while(i <= mid && j <= high){
-            if(arr[i] <= arr[j]){
-                marr[k] = arr[i];
-                k++;
-                i++;
-            } else {
-                marr[k] = arr[j];
-                k++;
-                j++;
-            }
-        }
-        
-        // 왼쪽 부분 배열이 남은 경우
-        while(i <= mid){
-            marr[k] = arr[i];
-            k++;
-            i++;
-        }
-        
-        // 오른쪽 부분 배열이 남은 경우
-        while(j <= high){
-            marr[k] = arr[j];
-            k++;
-            j++;
-        }
-        
-        // 정렬된 임시 배열의 내용을 원본 배열(arr)에 복사
-        for(int l = low; l <= high; l++){
-            arr[l] = marr[l];
-        }
     }
 }
